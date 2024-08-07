@@ -677,6 +677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Jogador: {fileID: 0}
   SomDeMorte: {fileID: 8300000, guid: 724d309c1ae2d6947a3b012c4ef0e032, type: 3}
+  PrefabKitMedico: {fileID: 1060151288946202, guid: 6150c6f66b7034ec5b3672478195682a, type: 3}
 --- !u!95 &1723803984057089643
 Animator:
   serializedVersion: 5

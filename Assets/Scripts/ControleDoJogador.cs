@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class ControleDoJogador : MonoBehaviour, IMatavel
+public class ControleDoJogador : MonoBehaviour, IMatavel, ICuravel
 {
     private Vector3 direcao;
     public LayerMask mascaraChao;
@@ -17,7 +16,6 @@ public class ControleDoJogador : MonoBehaviour, IMatavel
     // Start is called before the first frame update
     private void Start()
     {
-        Time.timeScale = 1;
         movimentoJogador = GetComponent<MovimentoJogador>();
         animacaoJogador = GetComponent<AnimacaoPersonagem>();
         statusJogador = GetComponent<Status>();
@@ -32,12 +30,6 @@ public class ControleDoJogador : MonoBehaviour, IMatavel
         direcao = new Vector3(eixoX, 0, eixoZ);
 
         animacaoJogador.Movimentar(direcao.magnitude);
-
-        if(statusJogador.Vida <= 0) {
-            if(Input.GetButtonDown("Fire1")){
-                SceneManager.LoadScene("Game");
-            }
-        }
     }
 
     void FixedUpdate() {
@@ -57,7 +49,15 @@ public class ControleDoJogador : MonoBehaviour, IMatavel
 
     public void Morrer() 
     {
-        Time.timeScale = 0;
-        TextoGameOver.SetActive(true);
+        controladorDeInterface.GameOver();
+    }
+
+    public void CurarVida(int quantidadeDeCura)
+    {
+        statusJogador.Vida += quantidadeDeCura;
+        if(statusJogador.Vida > statusJogador.VidaInicial){
+            statusJogador.Vida = statusJogador.VidaInicial;
+        }
+        controladorDeInterface.AtualizaSliderVidaDoJogador();
     }
 }

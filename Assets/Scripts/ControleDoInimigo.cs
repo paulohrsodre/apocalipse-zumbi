@@ -14,6 +14,8 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
     private Vector3 direcao;
     private float contadorVagar;
     private float tempoEntrePosicoesAleatorias = 4;
+    private float chanceDeGerarKitMedico = 0.1f;
+    public GameObject PrefabKitMedico;
 
     void Start() {
         Jogador = GameObject.FindWithTag(Tags.Jogador);
@@ -36,6 +38,7 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
             movimentaInimigo.Movimentar(direcao, statusDoInimigo.velocidade);
             animacaoInimigo.Atacar(false);
         } else {
+            direcao = Jogador.transform.position - transform.position;
             animacaoInimigo.Atacar(true);
         }
 
@@ -89,5 +92,13 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
     {
         Destroy(gameObject);
         ControleDeAudio.instancia.PlayOneShot(SomDeMorte);
+        VerificarGeracaoDoKitMedico(chanceDeGerarKitMedico);
+    }
+
+    void VerificarGeracaoDoKitMedico(float porcentagemGeracao)
+    {
+        if(Random.value <= porcentagemGeracao) {
+            Instantiate(PrefabKitMedico, transform.position, Quaternion.identity);
+        }
     }
 }
