@@ -11,7 +11,7 @@ public class ControladorDeInterface : MonoBehaviour
     void Start()
     {
         controleDoJogador = GameObject.FindWithTag("Player").GetComponent<ControleDoJogador>();
-        SliderVidaDoJogador.maxValue = controleDoJogador.Vida;
+        SliderVidaDoJogador.maxValue = controleDoJogador.statusJogador.Vida;
         AtualizaSliderVidaDoJogador();
     }
 
@@ -22,6 +22,6 @@ public class ControladorDeInterface : MonoBehaviour
 
     public void AtualizaSliderVidaDoJogador()
     {
-        SliderVidaDoJogador.value = controleDoJogador.Vida;
+        SliderVidaDoJogador.value = controleDoJogador.statusJogador.Vida;
     }
 }

@@ -6,6 +6,8 @@ public class Tiro : MonoBehaviour
 {
     public float velocidade = 20;
     private Rigidbody rigidbodyTiro;
+    public AudioClip SomDeMorte;
+    private int danoDoTiro = 1;
 
     private void Start() {
         rigidbodyTiro = GetComponent<Rigidbody>();
@@ -18,7 +20,7 @@ public class Tiro : MonoBehaviour
 
     void OnTriggerEnter(Collider objetoDeColisao) {
         if (objetoDeColisao.tag == "Inimigo"){
-            Destroy(objetoDeColisao.gameObject);
+            objetoDeColisao.GetComponent<ControleDoInimigo>().TomarDano(danoDoTiro);
         }
         Destroy(gameObject);
     }

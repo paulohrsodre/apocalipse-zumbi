@@ -6,6 +6,7 @@ public class ControleDaArma : MonoBehaviour
 {
     public GameObject Bala;
     public GameObject CanoDaArma;
+    public AudioClip SomDoTiro;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,7 @@ public class ControleDaArma : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1")){
             Instantiate(Bala, CanoDaArma.transform.position, CanoDaArma.transform.rotation);
+            ControleDeAudio.instancia.PlayOneShot(SomDoTiro);
         }
     }
 }
