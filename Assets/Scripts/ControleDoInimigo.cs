@@ -52,7 +52,7 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
         contadorVagar -= Time.deltaTime;
         if(contadorVagar <= 0) {
             posicaoAleatoria = AleatorizarPosicao();
-            contadorVagar += tempoEntrePosicoesAleatorias;
+            contadorVagar += tempoEntrePosicoesAleatorias + Random.Range(-1f, 1f);
         }
 
         bool ficouPertoOSuficiente = Vector3.Distance(transform.position, posicaoAleatoria) <= 0.05;
@@ -78,7 +78,7 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
 
     void AleatorizarZumbis()
     {     
-        int geraTipoZumbi = Random.Range(1, 28);
+        int geraTipoZumbi = Random.Range(1, transform.childCount);
         transform.GetChild(geraTipoZumbi).gameObject.SetActive(true);
     }
 
@@ -93,7 +93,10 @@ public class ControleDoInimigo : MonoBehaviour, IMatavel
 
     public void Morrer()
     {
-        Destroy(gameObject);
+        Destroy(gameObject, 2);
+        animacaoInimigo.Morrer();
+        this.enabled = false;
+        movimentaInimigo.Morrer();
         ControleDeAudio.instancia.PlayOneShot(SomDeMorte);
         VerificarGeracaoDoKitMedico(chanceDeGerarKitMedico);
         controladorDeInterface.AtualizarQuantidadeDeZumbiMmortos();

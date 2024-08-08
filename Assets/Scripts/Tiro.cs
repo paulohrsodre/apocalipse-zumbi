@@ -19,8 +19,13 @@ public class Tiro : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider objetoDeColisao) {
-        if (objetoDeColisao.tag == "Inimigo"){
-            objetoDeColisao.GetComponent<ControleDoInimigo>().TomarDano(danoDoTiro);
+        switch (objetoDeColisao.tag){
+            case "Inimigo":
+                objetoDeColisao.GetComponent<ControleDoInimigo>().TomarDano(danoDoTiro);
+            break;
+            case "ChefeDeFase":
+                objetoDeColisao.GetComponent<ControleDoChefe>().TomarDano(danoDoTiro);
+            break;
         }
         Destroy(gameObject);
     }
