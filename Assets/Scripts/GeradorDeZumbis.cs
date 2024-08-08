@@ -11,15 +11,25 @@ public class GeradorDeZumbis : MonoBehaviour
     private float distanciaDeGeracao = 3;
     private float distanciaDoJogadorParaGeracao = 20;
     private GameObject jogador;
+    private int quantidadeMaximaDeZumbisGerados = 2;
+    private int quantidadeDeZumbisGerados;
+    private float tempoDoProximoAumentoDeDificuldade = 5;
+    private float temporizadorDeDificuldade;
 
     private void Start()
     {
         jogador = GameObject.FindWithTag("Player");
+        temporizadorDeDificuldade = tempoDoProximoAumentoDeDificuldade;
+        for(int i = 0; i < quantidadeMaximaDeZumbisGerados; i++){
+            StartCoroutine(GerarNovoZumbi());
+        } 
     }
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, jogador.transform.position) > distanciaDoJogadorParaGeracao)
+        bool gerarZumbisPelaDistancia = Vector3.Distance(transform.position, jogador.transform.position) > distanciaDoJogadorParaGeracao;
+
+        if (gerarZumbisPelaDistancia == true && quantidadeDeZumbisGerados < quantidadeMaximaDeZumbisGerados)
         {
             temporizador += Time.deltaTime;
 
@@ -28,6 +38,11 @@ public class GeradorDeZumbis : MonoBehaviour
                 StartCoroutine(GerarNovoZumbi());
                 temporizador = 0;
             }
+        }
+
+        if(Time.timeSinceLevelLoad > temporizadorDeDificuldade){
+            quantidadeMaximaDeZumbisGerados++;
+            temporizadorDeDificuldade = Time.timeSinceLevelLoad + tempoDoProximoAumentoDeDificuldade;
         }
     }
 
@@ -49,7 +64,9 @@ public class GeradorDeZumbis : MonoBehaviour
             yield return null;
         }
 
-        Instantiate(Zumbi, posicaoDeCriacao, transform.rotation);
+        ControleDoInimigo zumbi = Instantiate(Zumbi, posicaoDeCriacao, transform.rotation).GetComponent<ControleDoInimigo>();
+        zumbi.gerador = this;
+        quantidadeDeZumbisGerados++;
     }
 
     Vector3 AleatorizarPosicao()
@@ -59,5 +76,10 @@ public class GeradorDeZumbis : MonoBehaviour
         posicao.y = 0;
 
         return posicao;
+    }
+
+    public void DiminuirQuantidadeDeZumbisGerados()
+    {
+        quantidadeDeZumbisGerados--;
     }
 }

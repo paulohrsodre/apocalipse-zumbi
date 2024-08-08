@@ -13,6 +13,8 @@ public class ControladorDeInterface : MonoBehaviour
     public TMP_Text TextoTempoDeSobrevivência;
     public TMP_Text TextoTempoDeSobrevivênciaMaximo;
     private float tempoMaximoSalvo;
+    private int quantidadeDeZumbisMortos;
+    public TMP_Text TextoQuantidadeDeZumbisMortos;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,12 @@ public class ControladorDeInterface : MonoBehaviour
     public void AtualizaSliderVidaDoJogador()
     {
         SliderVidaDoJogador.value = controleDoJogador.statusJogador.Vida;
+    }
+
+    public void AtualizarQuantidadeDeZumbiMmortos()
+    {
+        quantidadeDeZumbisMortos++;
+        TextoQuantidadeDeZumbisMortos.text = string.Format("x {0}", quantidadeDeZumbisMortos);
     }
 
     public void GameOver()
